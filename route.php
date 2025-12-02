@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__ . '/controllers/AuthController.php'; // Include the controller
+include_once __DIR__ . '/controllers/HomeController.php'; // Include the controller
 
 $uri = $_SERVER['REQUEST_URI'];
 
@@ -9,30 +9,30 @@ $basePath = dirname($_SERVER['SCRIPT_NAME']);
 
 // Remove base path from URI to get clean route
 $uri = str_replace($basePath, '', $uri);
-$controller = new AuthController();
+$homeController = new HomeController();
 
 switch ($uri) {
     case '/':
-    case '/login':
-        $controller->login();
+    case '/home':
+        $homeController->home();
         break;
 
-    case '/login-submit':
+    case '/about':
      
-         $controller->loginSubmit();
+         $homeController->about();
          break;
 
-    case '/register':
-        $controller->register();
+    case '/courses':
+        $homeController->courses();
         break;
 
-    case '/register-submit': 
+    case '/syllabus': 
 
-        $controller->registerSubmit();
+        $homeController->syllabus();
         break;
 
-    case '/logout':
-        $controller->logout();
+    case '/careers':
+        $homeController->careers();
         break;
 
     case '/dashboard':
