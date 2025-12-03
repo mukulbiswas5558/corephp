@@ -16,57 +16,109 @@
 </style>
 
 </head>
-
 <body>
-   <?php view('navbar'); ?>
+    <?php view('navbar'); ?>
 
-   <!-- 🔥 Carousel Section -->
-    <div style="margin-top: 90px;" class="px-4"> 
-        <div id="homeCarousel" 
-            class="carousel slide carousel-fade mx-auto rounded-4 shadow-lg overflow-hidden"
-            data-bs-ride="carousel"
-            data-bs-interval="3000">   <!-- Auto slide every 3 sec -->
+    <div class="mt-2 container-fluid">
+        <div class="row">
 
-            <!-- Slides -->
-            <div class="carousel-inner">
-
-                <div class="carousel-item active">
-                    <img src="https://s3.ap-south-1.amazonaws.com/develop.chesta.in/banners/8579f06b-2a1d-41c6-8544-3bed70091d1a.png"
-                        class="d-block w-100 img-fluid custom-banner" alt="Banner 1">
-                </div>
-
-                <div class="carousel-item">
-                    <img src="https://s3.ap-south-1.amazonaws.com/develop.chesta.in/banners/4c3b1416-fcf0-460e-9019-1b34d0eb42d9.png"
-                        class="d-block w-100 img-fluid custom-banner" alt="Banner 2">
-                </div>
-
-                <div class="carousel-item">
-                    <img src="https://s3.ap-south-1.amazonaws.com/develop.chesta.in/banners/e0cb980c-300a-4162-995a-511b17eb2080.png"
-                        class="d-block w-100 img-fluid custom-banner" alt="Banner 3">
-                </div>
-
-                <div class="carousel-item">
-                    <img src="https://s3.ap-south-1.amazonaws.com/develop.chesta.in/banners/11b329a0-44c2-4a92-919c-6bd347fd6512.png"
-                        class="d-block w-100 img-fluid custom-banner" alt="Banner 4">
-                </div>
-
+            <!-- LEFT SIDE IMAGE -->
+            <div class="col-md-6 d-none d-md-block p-0">
+                <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d"
+                     class="register-img w-100" alt="Login Image">
             </div>
 
-            <!-- Controls -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </button>
+            <!-- RIGHT SIDE LOGIN FORM -->
+            <div class="col-md-6 d-flex align-items-center justify-content-center form-section">
+                <div class="w-75">
 
-            <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </button>
+                    <h2 class="mb-4 fw-bold text-center">Login to Your Account</h2>
 
+                    <form id="loginForm">
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="Enter Email">
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="Enter Password">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mt-2">Login</button>
+
+                    </form>
+
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- JS Files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        const BASE_URL='<?= BASE_URL ?>';
+        $(document).ready(function () {
+            $("#loginForm").submit(function (e) {
+                e.preventDefault();
+                
+
+                let email = $("input[name='email']").val().trim();
+                let password = $("input[name='password']").val().trim();
+
+                // 🔥 Frontend Validation
+                if (email === "") {
+                    Swal.fire("Error", "Email is required", "error");
+                    return;
+                }
+                if (password === "") {
+                    Swal.fire("Error", "Password is required", "error");
+                    return;
+                }
+
+                // 🔥 AJAX API Request
+                $.ajax({
+                    url: `${BASE_URL}/loginSubmit`,
+                    type: "POST",
+                    data: { email: email, password: password },
+                    dataType: "json",
+
+                    success: function (response) {
+                        console.log(response);
+
+                        if (response.status === "error") {
+                            Swal.fire("Error", response.message, "error");
+                            return;
+                        }
+
+                        if (response.status === "success") {
+                            Swal.fire({
+                                title: "Success!",
+                                text: "Login Successful!",
+                                icon: "success",
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+
+                            // Redirect after login
+                            setTimeout(function () {
+                                window.location.href = "dashboard.php";
+                            }, 1500);
+                        }
+                    },
+
+                    error: function () {
+                        Swal.fire("Error", "Something went wrong!", "error");
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
-
-</html>

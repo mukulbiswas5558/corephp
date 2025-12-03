@@ -47,6 +47,10 @@ switch ($uri) {
     case '/login':
         $controller->login();
         break;
+
+    case '/loginSubmit':
+        $controller->loginSubmit();
+        break;
     default:
         http_response_code(404);
         echo "404 Not Found";

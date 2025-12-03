@@ -20,34 +20,55 @@ class AuthController{
 
     public function loginSubmit() {
 
+
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
 
+        // 🔥 Validation
         if (empty($email) || empty($password)) {
-            echo "Email and password are required.";
+            echo json_encode([
+                "status" => "error",
+                "message" => "Email and password are required."
+            ]);
             return;
         }
 
-        // Fetch user by email
+        // 🔥 Fetch user
         $user = $this->userModel->findByEmail($email);
 
         if (!$user) {
-            echo "Invalid credentials";
+            echo json_encode([
+                "status" => "error",
+                "message" => "Invalid email or password."
+            ]);
             return;
         }
 
-        // Verify password
+        // 🔥 Validate password
         if (!password_verify($password, $user['password'])) {
-            echo "Invalid credentials";
+            echo json_encode([
+                "status" => "error",
+                "message" => "Invalid email or password."
+            ]);
             return;
         }
 
-        // Set session
+        // 🔥 Start session & Save user
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        unset($user['password']); // never store raw password in session
+
         $_SESSION['user'] = $user;
 
-        // Redirect to dashboard
-        header('Location: /dashboard');
-        exit;
+        // 🔥 Success response
+        echo json_encode([
+            "status" => "success",
+            "message" => "Login successful",
+            "redirect" => "/dashboard"
+        ]);
+        return;
     }
 
     public function registerSubmit() {
