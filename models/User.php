@@ -3,6 +3,7 @@ include_once BASE_PATH . '/db/Database.php';
 class User{
 
     private $conn = null;
+
     public function __construct() {
         $db = new Database();
         $this->conn = $db->connect();
@@ -14,11 +15,18 @@ class User{
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function create($email, $password) {
-        $stmt = $this->conn->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
+    public function create($name, $email, $mobile, $password, $state) {
+        $stmt = $this->conn->prepare("
+            INSERT INTO users (name, email, mobile, password, state) 
+            VALUES (:name, :email, :mobile, :password, :state)
+        ");
+        
         return $stmt->execute([
-            ':email' => $email,
-            ':password' => $password
+            ':name'     => $name,
+            ':email'    => $email,
+            ':mobile'   => $mobile,
+            ':password' => $password,
+            ':state'    => $state
         ]);
     }
 }
