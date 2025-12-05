@@ -9,3 +9,5 @@
     <link rel="icon" href="<?= BASE_URL . '/assets/gcetts courses-horizontal.png' ?>">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= BASE_URL . '/assets/gcetts courses-logo-transparent.png' ?>">
     <link rel="apple-touch-icon" href="<?= BASE_URL . '/assets/gcetts courses-logo.png' ?>">
+<link rel="stylesheet" 
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">

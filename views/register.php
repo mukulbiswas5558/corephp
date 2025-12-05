@@ -2,19 +2,19 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Registration Page</title>
-
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="<?= BASE_URL . '/assets/css/style.css' ?>">
-    
+    <?php view('header', ['title' => 'Register']); ?>
     <style>
         .register-img {
             height: 100vh;
             object-fit: cover;
+        }
+        .input-error {
+            border: 2px solid red !important;
+        }
+
+        .error-text {
+            color: red;
+            font-size: 13px;
         }
         
     
@@ -25,186 +25,292 @@
 <body>
    <?php view('navbar'); ?>
 
-   <!-- 🔥 Carousel Section -->
-  
-        <div class="mt-2 container-fluid">
-        <div class="row">
+ 	<!-- =============================
+     REGISTRATION PAGE
+============================== -->
+<div class="container mt-5 pt-5 mb-5">
 
-            <!-- LEFT SIDE IMAGE -->
-            <div class="col-md-6 d-none d-md-block p-0">
-                <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216"
-                     class="register-img w-100" alt="Register Image">
-            </div>
+    <!-- 🔵 TAB NAVIGATION -->
+    <ul class="nav nav-tabs justify-content-center" id="regTabs">
+        <li class="nav-item">
+            <a class="nav-link active fw-bold" id="details-tab" data-bs-toggle="tab" href="#details"
+               style="color:#1e3a8a;">1. Details</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-bold" id="confirm-tab" data-bs-toggle="tab" href="#confirm"
+               style="color:#1e3a8a;">2. Confirm</a>
+        </li>
+    </ul>
 
-            <!-- RIGHT SIDE FORM -->
-            <div class="col-md-6 d-flex align-items-center justify-content-center form-section">
-                <div class="w-75">
+    <!-- =============================
+         TAB CONTENT
+    ============================== -->
+    <div class="tab-content mt-4">
 
-                    <h2 class="mb-4 fw-bold text-center">Create Your Account</h2>
+        <!-- =======================
+             1️⃣ DETAILS FORM
+        ======================== -->
+        <div class="tab-pane fade show active" id="details">
 
-                    <form id="registerForm">
+            <h3 class="fw-bold" style="color:#1e3a8a;">Student Registration</h3>
+            <p class="text-muted">Fill in your details to register for the MCQ tests.</p>
 
-                        <!-- Name -->
-                        <div class="mb-3">
-                            <label class="form-label">Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter Name">
-                        </div>
+            <div class="card border-0 shadow-sm p-4">
 
-                        <!-- Email -->
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Enter Email">
-                        </div>
+               <!-- Student Name -->
+                <label class="form-label fw-semibold">
+                    <i class="fa-solid fa-user-graduate me-2 text-primary"></i> Student Name
+                </label>
+                <input type="text" id="studentName" class="form-control mb-1" placeholder="Enter student name">
+                <small id="err_studentName" class="error-text d-none mb-3"></small>
 
-                        <!-- Mobile -->
-                        <div class="mb-3">
-                            <label class="form-label">Mobile Number</label>
-                            <input type="text" name="mobile" class="form-control" placeholder="Enter Mobile Number">
-                        </div>
+                <!-- School Name -->
+                <label class="form-label fw-semibold">
+                    <i class="fa-solid fa-school me-2 text-primary"></i> School Name
+                </label>
+                <input type="text" id="schoolName" class="form-control mb-1" placeholder="Enter school name">
+                <small id="err_schoolName" class="error-text d-none mb-3"></small>
 
-                        <!-- Password -->
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" placeholder="Enter Password">
-                        </div>
+                <!-- Contact Number -->
+                <label class="form-label fw-semibold">
+                    <i class="fa-solid fa-phone me-2 text-primary"></i> Contact Number
+                </label>
+                <input type="text" id="contactNumber" class="form-control mb-1" placeholder="Enter mobile number">
+                <small id="err_contactNumber" class="error-text d-none mb-3"></small>
 
-                        <!-- Confirm Password -->
-                        <div class="mb-3">
-                            <label class="form-label">Confirm Password</label>
-                            <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password">
-                        </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Class -->
+                        <label class="form-label fw-semibold">
+                            <i class="fa-solid fa-layer-group me-2 text-primary"></i> Class
+                        </label>
+                        <select id="classSelect" class="form-select mb-1">
+                            <option selected disabled>Select Class</option>
+                            <option value="11">Class 11</option>
+                            <option value="12">Class 12</option>
+                        </select>
+                        <small id="err_classSelect" class="error-text d-none mb-3"></small>
+                    </div>
 
-                        <!-- State -->
-                        <div class="mb-3">
-                            <label class="form-label">State</label>
-                            <select name="state" class="form-control">
-                                <option value="">Select State</option>
-                                <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                <option value="Assam">Assam</option>
-                                <option value="Bihar">Bihar</option>
-                                <option value="Chhattisgarh">Chhattisgarh</option>
-                                <option value="Goa">Goa</option>
-                                <option value="Gujarat">Gujarat</option>
-                                <option value="Haryana">Haryana</option>
-                                <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                <option value="Jharkhand">Jharkhand</option>
-                                <option value="Karnataka">Karnataka</option>
-                                <option value="Kerala">Kerala</option>
-                                <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                <option value="Maharashtra">Maharashtra</option>
-                                <option value="Manipur">Manipur</option>
-                                <option value="Meghalaya">Meghalaya</option>
-                                <option value="Mizoram">Mizoram</option>
-                                <option value="Nagaland">Nagaland</option>
-                                <option value="Odisha">Odisha</option>
-                                <option value="Punjab">Punjab</option>
-                                <option value="Rajasthan">Rajasthan</option>
-                                <option value="Sikkim">Sikkim</option>
-                                <option value="Tamil Nadu">Tamil Nadu</option>
-                                <option value="Telangana">Telangana</option>
-                                <option value="Tripura">Tripura</option>
-                                <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                <option value="Uttarakhand">Uttarakhand</option>
-                                <option value="West Bengal">West Bengal</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100 mt-2">Register</button>
-
-                    </form>
-
+                    <div class="col-md-6">
+                        <!-- Subject -->
+                        <label class="form-label fw-semibold">
+                            <i class="fa-solid fa-book-open me-2 text-primary"></i> Subject
+                        </label>
+                        <select id="subjectSelect" class="form-select mb-1">
+                            <option selected disabled>Select Subject</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Mathematics">Mathematics</option>
+                        </select>
+                        <small id="err_subjectSelect" class="error-text d-none mb-3"></small>
+                    </div>
                 </div>
+
+                <!-- Payable Amount -->
+                <label class="form-label fw-semibold mt-2">
+                    <i class="fa-solid fa-indian-rupee-sign me-2 text-primary"></i> Payable Amount
+                </label>
+                <input type="text" class="form-control mb-4" id="payAmount" value="499" readonly>
+
+                <!-- Continue Button -->
+                <button class="btn btn-primary w-100 fw-semibold" id="continueBtn"
+                    style="background: linear-gradient(to right, #6366f1, #a855f7); border:none;">
+                    Continue to Review
+                </button>
+
             </div>
 
         </div>
+
+        <!-- =======================
+             2️⃣ CONFIRM SCREEN
+        ======================== -->
+       <div class="tab-pane fade" id="confirm">
+
+            <h3 class="fw-bold" style="color:#1e3a8a;">Review Your Details</h3>
+            <p class="text-muted">Confirm your registration details.</p>
+
+            <div class="card border-0 shadow-sm p-4">
+
+                <!-- Student Name -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-user-graduate me-2 text-primary fs-5"></i>
+                        <span class="fw-semibold">Student Name</span>
+                    </div>
+                    <span id="r_studentName" class="fw-bold text-dark"></span>
+                </div>
+
+                <!-- School Name -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-school me-2 text-primary fs-5"></i>
+                        <span class="fw-semibold">School Name</span>
+                    </div>
+                    <span id="r_schoolName" class="fw-bold text-dark"></span>
+                </div>
+
+                <!-- Contact Number -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-phone me-2 text-primary fs-5"></i>
+                        <span class="fw-semibold">Contact Number</span>
+                    </div>
+                    <span id="r_contactNumber" class="fw-bold text-dark"></span>
+                </div>
+
+                <!-- Classes & Subjects -->
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-layer-group me-2 text-primary fs-5"></i>
+                                <span class="fw-semibold">Class</span>
+                            </div>
+                            <span id="r_classSelect" class="fw-bold text-dark"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-book-open me-2 text-primary fs-5"></i>
+                                <span class="fw-semibold">Subject</span>
+                            </div>
+                            <span id="r_subjectSelect" class="fw-bold text-dark"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Payable Amount -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-indian-rupee-sign me-2 text-primary fs-5"></i>
+                        <span class="fw-semibold">Payable Amount</span>
+                    </div>
+                    <span id="r_payAmount" class="fw-bold text-dark"></span>
+                </div>
+
+                <!-- Final Submit Button -->
+                <button class="btn w-100 fw-semibold text-white"
+                    id="finalSubmit"
+                    style="background: linear-gradient(to right, #3b82f6, #6366f1); border:none;">
+                    Submit Registration
+                </button>
+
+            </div>
+        </div>
+
     </div>
+
+</div>
+
+<!-- =============================
+     JS — TAB SWITCHING + DATA COPY
+============================== -->
+
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
+<script>
+     const BASE_URL='<?= BASE_URL ?>';
+    $(document).ready(function () {
 
-    <script>
-        const BASE_URL='<?= BASE_URL ?>';
-    $("#registerForm").on("submit", function(e) {
-        e.preventDefault(); // Stop normal form submit
-
-        // Clear old errors
-        $("small.text-danger").addClass("d-none").text("");
-
-        let name = $("input[name=name]").val().trim();
-        let email = $("input[name=email]").val().trim();
-        let mobile = $("input[name=mobile]").val().trim();
-        let password = $("input[name=password]").val().trim();
-        let confirm = $("input[name=confirm_password]").val().trim();
-        let state = $("select[name=state]").val();
-
-        // -----------------------
-        // Client Validation
-        // -----------------------
-
-        if (name.length < 3) {
-            return swal.fire("Error", "Name must be at least 3 characters.", "error");
+        function showError(inputId, errorId, message) {
+            $("#" + inputId).addClass("input-error");
+            $("#" + errorId).removeClass("d-none").text(message);
         }
 
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            return swal.fire("Error", "Enter a valid email address.", "error");
+        function clearError(inputId, errorId) {
+            $("#" + inputId).removeClass("input-error");
+            $("#" + errorId).addClass("d-none");
         }
 
-        if (!/^[0-9]{10}$/.test(mobile)) {
-            return swal.fire("Error", "Mobile number must be 10 digits.", "error");
-        }
+        // Continue Button
+        $("#continueBtn").click(function () {
 
-        if (password.length < 6) {
-            return swal.fire("Error", "Password must be at least 6 characters.", "error");
-        }
+            let valid = true;
 
-        if (password !== confirm) {
-            return swal.fire("Error", "Passwords do not match!", "error");
-        }
+            let studentName = $("#studentName").val()?.trim() || "";
+            let schoolName = $("#schoolName").val()?.trim() || "";
+            let contactNumber = $("#contactNumber").val()?.trim() || "";
+            let classSelect = $("#classSelect").val();
+            let subjectSelect = $("#subjectSelect").val();
+            let payAmount = $("#payAmount").val();
 
-        if (state === "") {
-            return swal.fire("Error", "Please select your state.", "error");
-        }
+            // Validation
+            if (studentName === "") { showError("studentName", "err_studentName", "Student name is required"); valid = false; }
+            else { clearError("studentName", "err_studentName"); }
 
-        // -----------------------
-        // AJAX Submit
-        // -----------------------
+            if (schoolName === "") { showError("schoolName", "err_schoolName", "School name is required"); valid = false; }
+            else { clearError("schoolName", "err_schoolName"); }
 
-        $.ajax({
-            url: `${BASE_URL}/registerSubmit`,
-            method: "POST",
-            data: {
-                name: name,
-                email: email,
-                mobile: mobile,
-                password: password,
-                confirm_password: confirm,
-                state: state
-            },
-            success: function(response) {
+            if (contactNumber.length !== 10) { showError("contactNumber", "err_contactNumber", "Enter valid 10-digit number"); valid = false; }
+            else { clearError("contactNumber", "err_contactNumber"); }
 
-                console.log("RAW:", response);
+            if (!classSelect) { showError("classSelect", "err_classSelect", "Please select a class"); valid = false; }
+            else { clearError("classSelect", "err_classSelect"); }
 
-                // Convert raw string to JSON object
-                try {
-                    response = JSON.parse(response);
-                } catch (e) {
-                    console.log("Invalid JSON:", e);
-                    swal.fire("Error", "Server returned invalid response.", "error");
-                    return;
-                }
+            if (!subjectSelect) { showError("subjectSelect", "err_subjectSelect", "Please select a subject"); valid = false; }
+            else { clearError("subjectSelect", "err_subjectSelect"); }
 
-                console.log("PARSED:", response);
+            if (!valid) return;
 
-                if (response.status === "error") {
-                    swal.fire("Error", response.message, "error");
-                    return;
-                }
+            // Fill Review Tab
+            $("#r_studentName").text(studentName);
+            $("#r_schoolName").text(schoolName);
+            $("#r_contactNumber").text(contactNumber);
+            $("#r_classSelect").text(classSelect);
+            $("#r_subjectSelect").text(subjectSelect);
+            $("#r_payAmount").text(payAmount);
 
-                if (response.status === "success") {
+            $("#confirm-tab").tab("show");
+        });
+
+        // Final Submit
+        $("#finalSubmit").click(function () {
+
+            let studentName = $("#studentName").val()?.trim() || "";
+            let schoolName = $("#schoolName").val()?.trim() || "";
+            let contactNumber = $("#contactNumber").val()?.trim() || "";
+            let classSelect = $("#classSelect").val()?.trim() || "";
+            let subjectSelect = $("#subjectSelect").val()?.trim() || "";
+            let payAmount = $("#payAmount").val()?.trim() || "";
+
+            if (!studentName || !schoolName || !contactNumber || !classSelect || !subjectSelect || !payAmount) {
+                swal.fire("Error", "All fields are required!", "error");
+                return;
+            }
+
+            $.ajax({
+                url: `${BASE_URL}/registerSubmit`,
+                method: "POST",
+                data: {
+                    student_name: studentName,
+                    school_name: schoolName,
+                    contact_number: contactNumber,
+                    class: classSelect,
+                    subject: subjectSelect,
+                    amount: payAmount
+                },
+                success: function (response) {
+
+                    try { response = JSON.parse(response); } 
+                    catch (e) {
+                        swal.fire("Error", "Invalid server response!", "error");
+                        return;
+                    }
+
+                    if (response.status === "error") {
+                        swal.fire("Error", response.message, "error");
+                        return;
+                    }
+
                     swal.fire({
                         title: "Success!",
                         text: response.message,
@@ -212,15 +318,27 @@
                         timer: 2000,
                         showConfirmButton: false
                     }).then(() => {
-                        window.location.href = "/login";
+                        window.location.reload();
                     });
+                },
+
+                error: function () {
+                    swal.fire("Server Error", "Something went wrong!", "error");
                 }
-            },
-            error: function() {
-                swal.fire("Server Error", "Something went wrong!", "error");
-            }
+            });
+
         });
 
     });
-</script>
+  </script>
+   <script>
+        document.querySelector('.navbar-toggler').addEventListener('click', function () {
+            const openIcon = document.querySelector('.nav-open-icon');
+            const closeIcon = document.querySelector('.nav-close-icon');
+
+            openIcon.classList.toggle('d-none');
+            closeIcon.classList.toggle('d-none');
+        });
+   </script>
+
 </html>

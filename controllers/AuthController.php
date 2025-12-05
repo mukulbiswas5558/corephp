@@ -62,27 +62,38 @@ class AuthController{
 
         $_SESSION['user'] = $user;
 
-        // 🔥 Success response
-        echo json_encode([
+         echo json_encode([
             "status" => "success",
             "message" => "Login successful",
-            "redirect" => "/dashboard"
+            "redirect" => "/admin"
         ]);
         return;
     }
 
-    public function registerSubmit() {
+ 	public function registerSubmit() {
 
         // Read POST values
-        $name      = trim($_POST['name'] ?? '');
-        $email     = trim($_POST['email'] ?? '');
-        $mobile    = trim($_POST['mobile'] ?? '');
-        $password  = trim($_POST['password'] ?? '');
-        $confirm   = trim($_POST['confirm_password'] ?? '');
-        $state     = trim($_POST['state'] ?? '');
+        $studentName    = trim($_POST['student_name'] ?? '');
+        $schoolName     = trim($_POST['school_name'] ?? '');
+        $contactNumber  = trim($_POST['contact_number'] ?? '');
+        $classSelect    = trim($_POST['class'] ?? '');
+        $subjectSelect  = trim($_POST['subject'] ?? '');
+        $amount         = trim($_POST['amount'] ?? '');
+        if ($amount === '' || !is_numeric($amount)) {
+            $amount = 0.00;   // default or handle error
+        } else {
+            $amount = number_format((float)$amount, 2, '.', ''); // convert to DECIMAL(10,2)
+        }
 
         // Basic validation
-        if (empty($name) || empty($email) || empty($mobile) || empty($password) || empty($confirm) || empty($state)) {
+        if (
+            empty($studentName) || 
+            empty($schoolName) || 
+            empty($contactNumber) || 
+            empty($classSelect) || 
+            empty($subjectSelect) || 
+            empty($amount)
+        ) {
             echo json_encode([
                 "status" => "error",
                 "message" => "All fields are required."
@@ -90,34 +101,29 @@ class AuthController{
             return;
         }
 
-        if ($password !== $confirm) {
+        // Validate mobile
+        if (strlen($contactNumber) != 10) {
             echo json_encode([
                 "status" => "error",
-                "message" => "Passwords do not match."
+                "message" => "Please enter valid 10-digit contact number."
             ]);
             return;
         }
 
-        // Email exists check
-        $existingUser = $this->userModel->findByEmail($email);
-        if ($existingUser) {
-            echo json_encode([
-                "status" => "error",
-                "message" => "Email already exists."
-            ]);
-            return;
-        }
-
-        // Hash password
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        // Save user
-        $saved = $this->userModel->create($name, $email, $mobile, $hashedPassword, $state);
+        // Save data in DB (example)
+        $saved = $this->userModel->createBooking(
+            $studentName,
+            $schoolName,
+            $contactNumber,
+            $classSelect,
+            $subjectSelect,
+            $amount
+        );
 
         if ($saved) {
             echo json_encode([
                 "status" => "success",
-                "message" => "Registration successful. Please login."
+                "message" => "Booking submitted successfully."
             ]);
         } else {
             echo json_encode([

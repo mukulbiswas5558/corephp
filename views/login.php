@@ -2,15 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Registration Page</title>
-
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="<?= BASE_URL . '/assets/css/style.css' ?>">
-    
+    <?php view('header', ['title' => 'Login']); ?>
     <style>
     
 </style>
@@ -48,7 +40,20 @@
                             <input type="password" name="password" class="form-control" placeholder="Enter Password">
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 mt-2">Login</button>
+                     <button type="submit" 
+                            class="btn w-100 mt-2"
+                            style="
+                                background: linear-gradient(to right, #6366f1, #a855f7);
+                                color:#fff;
+                                font-weight:600;
+                                border:none;
+                                border-radius:14px;
+                                padding:10px 20px;
+                                box-shadow:0 4px 12px rgba(99,102,241,0.4);
+                                transition:all 0.3s ease;
+                            ">
+                        Login
+                    </button>
 
                     </form>
 
@@ -62,6 +67,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  
     <script>
         const BASE_URL='<?= BASE_URL ?>';
         $(document).ready(function () {
@@ -108,7 +114,7 @@
 
                             // Redirect after login
                             setTimeout(function () {
-                                window.location.href = "dashboard.php";
+                                window.location.href = "admin";
                             }, 1500);
                         }
                     },
@@ -120,5 +126,13 @@
             });
         });
     </script>
+   <script>
+    document.querySelector('.navbar-toggler').addEventListener('click', function () {
+        const openIcon = document.querySelector('.nav-open-icon');
+        const closeIcon = document.querySelector('.nav-close-icon');
 
+        openIcon.classList.toggle('d-none');
+        closeIcon.classList.toggle('d-none');
+    });
+	</script>
 </body>

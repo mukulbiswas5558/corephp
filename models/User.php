@@ -15,18 +15,20 @@ class User{
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function create($name, $email, $mobile, $password, $state) {
+   public function createBooking($studentName, $schoolName, $contactNumber, $classSelect, $subjectSelect, $amount)
+    {
         $stmt = $this->conn->prepare("
-            INSERT INTO users (name, email, mobile, password, state) 
-            VALUES (:name, :email, :mobile, :password, :state)
+            INSERT INTO register (student_name, school_name, contact_number, class, subject, amount)
+            VALUES (:student_name, :school_name, :contact_number, :class, :subject, :amount)
         ");
-        
+
         return $stmt->execute([
-            ':name'     => $name,
-            ':email'    => $email,
-            ':mobile'   => $mobile,
-            ':password' => $password,
-            ':state'    => $state
+            ':student_name'   => $studentName,
+            ':school_name'    => $schoolName,
+            ':contact_number' => $contactNumber,
+            ':class'          => $classSelect,
+            ':subject'        => $subjectSelect,
+            ':amount'         => $amount
         ]);
     }
 }

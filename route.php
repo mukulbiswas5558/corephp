@@ -1,56 +1,62 @@
 <?php
 
-include_once __DIR__ . '/controllers/HomeController.php'; // Include the controller
+include_once __DIR__ . '/controllers/HomeController.php';
 include_once __DIR__ . '/controllers/AuthController.php';
+include_once __DIR__ . '/controllers/AdminController.php';
+
 $uri = $_SERVER['REQUEST_URI'];
 
-$basePath = dirname($_SERVER['SCRIPT_NAME']);
+// Remove query parameters (?i=1, ?z=1, etc.)
+$uri = parse_url($uri, PHP_URL_PATH);
 
+// Normalize route (remove leading slash)
+$uri = trim($uri, '/');
 
-// Remove base path from URI to get clean route
-$uri = str_replace($basePath, '', $uri);
+// Handle empty route → use home
+if ($uri === '') {
+    $uri = 'home';
+}
+
 $homeController = new HomeController();
 $controller = new AuthController();
 
+
 switch ($uri) {
-    case '/':
-    case '/home':
+
+    case 'home':
         $homeController->home();
         break;
 
-    case '/about':
-     
-         $homeController->about();
-         break;
-
-    case '/courses':
-        $homeController->courses();
+    case 'contact':
+        $homeController->contact();
         break;
 
-    case '/syllabus': 
-
-        $homeController->syllabus();
-        break;
-
-    case '/careers':
-        $homeController->careers();
-        break;
-
-    case '/register':
+    case 'register':
         $controller->register();
         break;
 
-    case '/registerSubmit':
+    case 'registerSubmit':
         $controller->registerSubmit();
         break;
 
-    case '/login':
+    case 'login':
         $controller->login();
         break;
 
-    case '/loginSubmit':
+    case 'loginSubmit':
         $controller->loginSubmit();
         break;
+
+    case 'admin':
+        $adminController = new AdminController();
+        $adminController->registerUserDetails();
+        break;
+
+    case 'logout':
+        $adminController = new AdminController();
+        $adminController->logout();
+        break;
+
     default:
         http_response_code(404);
         echo "404 Not Found";
